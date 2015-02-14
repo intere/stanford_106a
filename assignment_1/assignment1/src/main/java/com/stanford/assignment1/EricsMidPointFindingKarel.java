@@ -16,61 +16,68 @@ import stanford.karel.SuperKarel;
 
 @SuppressWarnings("serial")
 public class EricsMidPointFindingKarel extends SuperKarel {
-	private int eastMoves;
-	
 	public void run() {
-		moveToEastWall();
-		moveToOpeningAndFaceEast();
-		pickupPaperAndReturnHome();
-		dropPaperInCenter();
+		placeBeepersOnEnds();
+		moveBeepersToCenter();
 	}
 
-	private void dropPaperInCenter() {
-		for(int i=0; i<eastMoves/2; i++) {
+	private void moveBeepersToCenter() {
+		faceEast();
+		while(!beepersPresent()) {
 			move();
 		}
-		putBeeper();
-		turnAround();
-		for(int i=0; i<eastMoves/2; i++) {
-			move();
-		}
-		turnAround();
-	}
-
-	private void pickupPaperAndReturnHome() {
-		eastMoves = 0;
-		move();
 		pickBeeper();
-		turnAround();
-		while(frontIsClear()) {
-			move();
-			++eastMoves;
+		move();
+		if(!beepersPresent()) {
+			putBeeper();
+			walkToEnd();
+		} else {
+			faceWest();
+			walkToEnd();
 		}
-		turnRight();
-		while(frontIsClear()) {
+		
+		faceWest();
+		if(!frontIsBlocked()) {
+			while(!beepersPresent()) {
+				move();
+			}
+			pickBeeper();
 			move();
+			if(!beepersPresent()) {
+				putBeeper();
+				walkToEnd();
+				moveBeepersToCenter();
+			} else {
+				walkToEnd();
+			}
 		}
-		turnRight();
 	}
 
-	private void moveToOpeningAndFaceEast() {
-		turnRight();
-		while(!foundDoor()) {
-			move();
-		}
+	private void placeBeepersOnEnds() {
+		putBeeper();
+		walkToEnd();
+		putBeeper();
+		goHome();
+	}
+
+	private void goHome() {
+		faceWest();
+		walkToEnd();
 	}
 	
-	private boolean foundDoor() {
-		turnLeft();
-		boolean foundDoor = frontIsClear();
-		if(frontIsClear()) {
-			return frontIsClear();
+	private void faceEast() {
+		while(!facingEast()) {
+			turnLeft();
 		}
-		turnRight();
-		return foundDoor;
 	}
 
-	private void moveToEastWall() {
+	private void faceWest() {
+		while(!facingWest()) {
+			turnLeft();
+		}
+	}
+
+	private void walkToEnd() {
 		while(frontIsClear()) {
 			move();
 		}
