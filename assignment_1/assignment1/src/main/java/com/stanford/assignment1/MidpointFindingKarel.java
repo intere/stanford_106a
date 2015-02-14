@@ -14,6 +14,7 @@ package com.stanford.assignment1;
 
 import stanford.karel.*;
 
+@SuppressWarnings("serial")
 public class MidpointFindingKarel extends SuperKarel {
 
   public void run() {
