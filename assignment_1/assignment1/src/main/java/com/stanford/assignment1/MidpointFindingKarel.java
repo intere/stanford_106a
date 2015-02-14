@@ -1,3 +1,5 @@
+package com.stanford.assignment1;
+
 /*
  * File: MidpointFindingKarel.java
  * -------------------------------
@@ -10,10 +12,7 @@
  * assume that it is at least as tall as it is wide.
  */
 
-package com.stanford.106a;
-
 import stanford.karel.*;
-
 
 public class MidpointFindingKarel extends SuperKarel {
 
